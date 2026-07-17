@@ -33,6 +33,8 @@
     <string name="DisableLinkPreviewByDefaultInfo">发送含链接的消息时不附带链接预览。</string>
     <string name="DisableSlideToNextChannelInfo">滑动到频道列表末尾后不再跳转到下一个频道。</string>
     <string name="DisableSpoilersInfo">剧透文本和媒体将直接显示，不再模糊。</string>
+    <string name="DisableNoForwardsInfo">绕过所有消息的转发和复制限制。</string>
+    <string name="DebugLogInfo">将调试追踪日志写入 Downloads/forkgram/</string>
     <string name="FormatWithSecondsInfo">在消息时间戳和其他时间显示中显示秒数。</string>
     <string name="HideAiEditorInfo">隐藏消息和说明输入框中的 AI 改写按钮。</string>
     <string name="FormattingMenuInfo">长按拖拽可调整选项顺序。未勾选的选项会从文字选择菜单中隐藏。</string>
@@ -136,6 +138,8 @@
     <string name="NewMyStory">新故事</string>
     <string name="DisableSlideToNextChannel">禁止滑动切换到下一频道</string>
     <string name="DisableSpoilers">禁用剧透</string>
+    <string name="DisableNoForwards">解除限制</string>
+    <string name="DebugLog">调试日志</string>
     <string name="DisableRecentFilesAttachment">禁用最近文件</string>
     <string name="BotSkipShare">跳过机器人分享弹窗</string>
     <string name="BotSkipFullscreen">禁用机器人全屏模式</string>

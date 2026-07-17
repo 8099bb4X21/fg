@@ -3662,6 +3662,9 @@ public class ChatActivity extends BaseFragment implements
             if (chatActivity != null && chatActivity.getDialogId() == UserObject.VERIFY) {
                 return true;
             }
+            if (org.telegram.messenger.MessagesController.getGlobalMainSettings().getBoolean("disableNoForwards", false)) {
+                return true;
+            }
             return chatActivity == null || !(
                 chatActivity.getDialogId() < 0 && chatActivity.getMessagesController().isPeerNoForwards(chatActivity.getDialogId()) ||
                 selectedView != null && selectedView.getMessageObject() != null && (selectedView.getMessageObject().messageOwner != null && selectedView.getMessageObject().messageOwner.noforwards)
@@ -12434,6 +12437,9 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private boolean hasSelectedNoforwardsMessage() {
+        if (org.telegram.messenger.MessagesController.getGlobalMainSettings().getBoolean("disableNoForwards", false)) {
+            return false;
+        }
         try {
             for (int i = 0; i < selectedMessagesIds.length; ++i) {
                 for (int j = 0; j < selectedMessagesIds[i].size(); ++j) {

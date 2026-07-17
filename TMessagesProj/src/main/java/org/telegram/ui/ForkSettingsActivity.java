@@ -132,6 +132,8 @@ public class ForkSettingsActivity extends BaseFragment {
     public static final int ID_DISABLE_TABLET_MODE = 82;
     public static final int ID_LOCK_PREMIUM = 83;
     public static final int ID_DISABLE_SPOILERS = 84;
+    public static final int ID_DISABLE_NO_FORWARDS = 85;
+    public static final int ID_DEBUG_LOG = 86;
 
     public static final int ID_LASTFM_LOGIN = 90;
 
@@ -456,6 +458,10 @@ public class ForkSettingsActivity extends BaseFragment {
             .setChecked(pref("dropScreenshotCaption", true)).setMultiline(true));
         items.add(UItem.asButtonCheck(ID_DISABLE_SPOILERS, LocaleController.getString(R.string.DisableSpoilers), LocaleController.getString(R.string.DisableSpoilersInfo))
             .setChecked(pref("disableSpoilers", false)).setMultiline(true));
+        items.add(UItem.asButtonCheck(ID_DISABLE_NO_FORWARDS, LocaleController.getString(R.string.DisableNoForwards), LocaleController.getString(R.string.DisableNoForwardsInfo))
+            .setChecked(pref("disableNoForwards", false)).setMultiline(true));
+        items.add(UItem.asCheck(ID_DEBUG_LOG, LocaleController.getString(R.string.DebugLog))
+            .setChecked(pref("debugLog", false)));
         if (HiddenAccountHelper.shouldShowSettingsEntry(currentAccount)) {
             items.add(UItem.asSettingsCell(ID_HIDDEN_ACCOUNTS, LocaleController.getString(R.string.HiddenAccounts), getHiddenAccountsText()));
         }
@@ -654,6 +660,16 @@ public class ForkSettingsActivity extends BaseFragment {
             toggle("dropScreenshotCaption", item, view);
         } else if (id == ID_DISABLE_SPOILERS) {
             toggle("disableSpoilers", item, view);
+        } else if (id == ID_DISABLE_NO_FORWARDS) {
+            toggle("disableNoForwards", item, view);
+        } else if (id == ID_DEBUG_LOG) {
+            if (toggle("debugLog", item, view)) {
+                org.telegram.messenger.forkgram.ForkDebugLog.init(true);
+                org.telegram.messenger.forkgram.ForkDebugLog.log("Debug log enabled");
+            } else {
+                org.telegram.messenger.forkgram.ForkDebugLog.log("Debug log disabled");
+                org.telegram.messenger.forkgram.ForkDebugLog.init(false);
+            }
         } else if (id == ID_HIDDEN_ACCOUNTS) {
             presentFragment(new HiddenAccountsActivity());
 
