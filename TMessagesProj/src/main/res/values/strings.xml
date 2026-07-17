@@ -51,6 +51,7 @@
     <string name="DisableParametersFromBotLinksInfo">Strip start payloads from bot links before opening them.</string>
     <string name="DisableDefaultInAppBrowserInfo">Open links in your system browser instead of the in-app one.</string>
     <string name="LockPremiumInfo">Hide Telegram Premium ads and the subscribe button. Restart required.</string>
+    <string name="DisablePremiumStickerAnimationInfo">Do not play fullscreen animation when tapping premium stickers.</string>
     <string name="DisableTabletModeInfo">Use the phone layout on tablets. The app restarts immediately.</string>
     <string name="VoiceMessageQuality">Voice Message Quality</string>
     <string name="UpdateCheckInterval">Update Check Interval</string>
@@ -129,6 +130,7 @@
     <string name="DisableLockedAnimatedEmoji">Hide locked animated emoji in panel</string>
     <string name="DisableParametersFromBotLinks">Disable parameters from bot links</string>
     <string name="LockPremium">Lock premium features</string>
+    <string name="DisablePremiumStickerAnimation">Disable premium sticker animation</string>
     <string name="DeleteAllUnpinnedMessages">Delete all unpinned messages</string>
     <string name="DeleteAllUnpinnedMessagesInfo">Are you sure you want **delete all unpinned messages** from this chat?</string>
     <string name="AddDeleteAllUnpinnedMessages">Add "Delete all unpinned messages" to menu</string>

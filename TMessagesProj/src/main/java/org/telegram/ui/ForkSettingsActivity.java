@@ -132,6 +132,7 @@ public class ForkSettingsActivity extends BaseFragment {
     public static final int ID_DISABLE_TABLET_MODE = 82;
     public static final int ID_LOCK_PREMIUM = 83;
     public static final int ID_DISABLE_SPOILERS = 84;
+    public static final int ID_DISABLE_PREMIUM_STICKER_ANIM = 85;
 
     public static final int ID_LASTFM_LOGIN = 90;
 
@@ -607,6 +608,8 @@ public class ForkSettingsActivity extends BaseFragment {
         }
         items.add(UItem.asButtonCheck(ID_LOCK_PREMIUM, LocaleController.getString(R.string.LockPremium), LocaleController.getString(R.string.LockPremiumInfo))
             .setChecked(pref("lockPremium", false)).setMultiline(true));
+        items.add(UItem.asButtonCheck(ID_DISABLE_PREMIUM_STICKER_ANIM, LocaleController.getString(R.string.DisablePremiumStickerAnimation), LocaleController.getString(R.string.DisablePremiumStickerAnimationInfo))
+            .setChecked(pref("disablePremiumStickerAnimation", false)).setMultiline(true));
         items.add(UItem.asShadow(null));
 
         if (BuildVars.LASTFM_API_KEY != null && BuildVars.LASTFM_API_KEY.length() > 2 &&
@@ -787,6 +790,8 @@ public class ForkSettingsActivity extends BaseFragment {
             System.exit(0);
         } else if (id == ID_LOCK_PREMIUM) {
             toggle("lockPremium", item, view);
+        } else if (id == ID_DISABLE_PREMIUM_STICKER_ANIM) {
+            toggle("disablePremiumStickerAnimation", item, view);
 
         } else if (id == ID_LASTFM_LOGIN) {
             presentFragment(new LastFmLoginActivity());
