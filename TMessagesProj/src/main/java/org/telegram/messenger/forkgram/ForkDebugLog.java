@@ -2,8 +2,6 @@ package org.telegram.messenger.forkgram;
 
 import android.os.Environment;
 
-import org.telegram.messenger.MessagesController;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -14,17 +12,17 @@ import java.util.Locale;
 public class ForkDebugLog {
 
     private static PrintWriter writer;
-    private static String currentDate;
     private static boolean enabled;
 
     public static void init(boolean enabled) {
         ForkDebugLog.enabled = enabled;
         if (enabled) {
             try {
-                File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "forkgram");
+                File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                if (downloadDir == null) return;
+                File dir = new File(downloadDir, "forkgram");
                 dir.mkdirs();
                 String date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
-                currentDate = date;
                 File logFile = new File(dir, "trace-" + date + ".log");
                 writer = new PrintWriter(new FileWriter(logFile, true));
                 log("=== Log started ===");

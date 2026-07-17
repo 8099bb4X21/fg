@@ -8357,7 +8357,7 @@ public class MessageObject {
             return false;
         } else if (searchType == ChatActivity.SEARCH_PUBLIC_POSTS) {
             return true;
-        } else if (messageOwner.noforwards) {
+        } else if (messageOwner.noforwards && !MessagesController.getGlobalMainSettings().getBoolean("disableNoForwards", false)) {
             return false;
         } else if (messageOwner.fwd_from != null && !isOutOwner() && messageOwner.fwd_from.saved_from_peer != null && getDialogId() == UserConfig.getInstance(currentAccount).getClientUserId()) {
             return true;
@@ -8630,7 +8630,7 @@ public class MessageObject {
             return;
         }
         boolean hasUrls = applyEntities();
-        boolean noforwards = messageOwner != null && messageOwner.noforwards;
+        boolean noforwards = messageOwner != null && messageOwner.noforwards && !MessagesController.getGlobalMainSettings().getBoolean("disableNoForwards", false);
         if (!noforwards) {
             final long dialogId = getDialogId();
             noforwards = MessagesController.getInstance(currentAccount).isPeerNoForwards(dialogId);
@@ -9126,7 +9126,7 @@ public class MessageObject {
         public TextLayoutBlocks(MessageObject messageObject, @NonNull CharSequence text, TextPaint textPaint, int width) {
             this.text = text;
             textWidth = 0;
-            boolean noforwards = messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards;
+            boolean noforwards = messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards && !MessagesController.getGlobalMainSettings().getBoolean("disableNoForwards", false);
             if (messageObject != null && !noforwards) {
                 final long dialogId = messageObject.getDialogId();
                 noforwards = MessagesController.getInstance(messageObject.currentAccount).isPeerNoForwards(dialogId);
