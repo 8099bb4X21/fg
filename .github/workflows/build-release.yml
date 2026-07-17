@@ -1,0 +1,69 @@
+name: Build ForkClient APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        with:
+          tool-cache: false
+          android: false
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: nttld/setup-ndk@v1.4.2
+        id: setup-ndk-r21e
+        with:
+          ndk-version: r21e
+          link-to-sdk: true
+
+      - uses: nttld/setup-ndk@v1.4.2
+        id: setup-ndk-r23c
+        with:
+          ndk-version: r23c
+          link-to-sdk: true
+
+      - name: Install NDK for JNI build
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt -y install ninja-build meson unzip pip gperf
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > TMessagesProj/config/release.keystore
+
+      - name: Prepare gradle.properties
+        run: |
+          vars=gradle.properties
+          echo "APP_ID=${{ secrets.APP_ID }}" >> $vars
+          echo "APP_HASH=${{ secrets.APP_HASH }}" >> $vars
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $vars
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $vars
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $vars
+          echo "RELEASE_KEYSTORE_FILE=$PWD/TMessagesProj/config/release.keystore" >> $vars
+
+      - name: Build release APK
+        run: |
+          ./gradlew :TMessagesProj_App:assembleAfatRelease
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ForkClient-${{ github.sha }}
+          path: TMessagesProj_App/build/outputs/apk/afat/release/*.apk
