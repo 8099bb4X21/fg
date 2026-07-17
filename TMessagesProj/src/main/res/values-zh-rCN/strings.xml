@@ -146,6 +146,8 @@
     <string name="DisableDefaultInAppBrowser">用系统浏览器打开链接</string>
     <string name="TranslationEngine">翻译引擎</string>
     <string name="DisableAutoplayNextVoice">禁用语音/视频消息自动播放</string>
+    <string name="DisableUnifiedPush">禁用 UnifiedPush</string>
+    <string name="DisableUnifiedPushInfo">需要重启</string>
     <string name="AudioPlayerAutoplayNext">自动播放下一条</string>
     <string name="SmsOnlyOfficialWarning">注意：短信验证仅限官方应用</string>
     <string name="ThirdParty">第三方</string>
@@ -155,5 +157,36 @@
     <string name="AppName">Fork Client</string>
     <string name="AppNameBeta">Fork Client</string>
     <string name="AppNameFdroid">Forkgram</string>
+    <string name="HiddenAccounts">隐藏账户</string>
+    <string name="HiddenAccountsOptions">选项</string>
+    <string name="HiddenAccountsStealthMode">隐身模式</string>
+    <string name="HiddenAccountsStealthModeRequiresPasscodeOff">启用隐身模式前请先关闭 Telegram 密码锁。</string>
+    <string name="HiddenAccountsOnlyShowWhenSignedInAsHiddenAccount">仅在使用隐藏账户时显示设置</string>
+    <string name="HiddenAccountsPasscodeModeInfo">隐藏账户使用单独的 4 位解锁码。启用应用密码锁后，在密码输入界面输入隐藏账户的解锁码即可在当前会话中打开该账户。</string>
+    <string name="HiddenAccountsStealthModeInfo">隐身模式可在不启用常规密码锁的情况下隐藏账户。在聊天搜索栏中输入隐藏账户的解锁码即可在当前会话中打开该账户。</string>
+    <string name="HiddenAccountsNeedsPasscodeOrStealthMode">隐藏账户前请先启用 Telegram 密码锁或隐身模式。</string>
+    <string name="HiddenAccountsAccounts">账户</string>
+    <string name="HiddenAccountsStateHidden">已隐藏</string>
+    <string name="HiddenAccountsStateVisible">可见</string>
+    <string name="HiddenAccountsAccountsInfo">仅隐藏账户会获得额外的解锁码。至少需要保留一个账户可见。</string>
+    <string name="HiddenAccountsDisableStealthNeedsPasscode">当存在隐藏账户且未启用应用密码锁时，无法禁用隐身模式。</string>
+    <string name="HiddenAccountsNeedVisibleAccount">至少需要保留一个已登录账户可见。</string>
+    <string name="HiddenAccountsChangeUnlockCode">修改解锁码</string>
+    <string name="HiddenAccountsRemoveHiddenAccount">移除隐藏账户</string>
+    <string name="HiddenAccountsRemoveHiddenAccountConfirm">该账户将在账户切换器、设置和通知中重新变为可见。</string>
+    <string name="HiddenAccountsShowAccount">显示账户</string>
+    <string name="HiddenAccountsEnterUnlockCode">输入 4 位解锁码</string>
+    <string name="HiddenAccountsCurrentUnlockCode">当前解锁码</string>
+    <string name="HiddenAccountsConfirmCurrentUnlockCode">确认当前解锁码</string>
+    <string name="HiddenAccountsConfirmCurrentUnlockCodeInfo">修改此隐藏账户前请输入当前解锁码。</string>
+    <string name="HiddenAccountsConfirmUnlockCode">确认解锁码</string>
+    <string name="HiddenAccountsHideAccount">隐藏账户</string>
+    <string name="HiddenAccountsHideAccountAction">隐藏</string>
+    <string name="HiddenAccountsUnlockCodeInfo">为该账户使用单独的 4 位解锁码。隐藏账户的解锁码必须唯一，且不能与应用密码锁密码相同。</string>
+    <string name="HiddenAccountsInvalidUnlockCode">请输入恰好 4 位数字。</string>
+    <string name="HiddenAccountsDuplicateUnlockCode">该解锁码已被其他隐藏账户使用。</string>
+    <string name="HiddenAccountsIncorrectCurrentUnlockCode">当前解锁码不正确。</string>
+    <string name="HiddenAccountsUnlockCodeMatchesAppPasscode">该解锁码与应用密码锁密码相同，请使用其他解锁码。</string>
+    <string name="HiddenAccountsUnlockCodesDoNotMatch">解锁码不匹配。</string>
 
 </resources>
