@@ -748,9 +748,6 @@ public class MessageObject {
         if (getMedia(messageOwner) != null && getMedia(messageOwner).nopremium) {
             return false;
         }
-        if (MessagesController.getGlobalMainSettings().getBoolean("disablePremiumStickerAnimation", false)) {
-            return false;
-        }
         return isPremiumSticker(getDocument());
     }
 

@@ -51,8 +51,6 @@
     <string name="DisableParametersFromBotLinksInfo">打开机器人链接前剥离其启动参数。</string>
     <string name="DisableDefaultInAppBrowserInfo">使用系统浏览器打开链接，而非内置浏览器。</string>
     <string name="LockPremiumInfo">隐藏 Telegram Premium 广告和订阅按钮。修改后需要重启。</string>
-    <string name="DisablePremiumStickerAnimation">禁用 Premium 贴纸动画</string>
-    <string name="DisablePremiumStickerAnimationInfo">点击 Premium 贴纸时不播放全屏动画效果。</string>
     <string name="DisableTabletModeInfo">在平板上使用手机布局。修改后立即重启。</string>
     <string name="VoiceMessageQuality">语音消息音质</string>
     <string name="UpdateCheckInterval">更新检查间隔</string>
@@ -130,7 +128,7 @@
     <string name="FormattingMenu">格式菜单</string>
     <string name="DisableLockedAnimatedEmoji">隐藏面板中锁定的动态 Emoji</string>
     <string name="DisableParametersFromBotLinks">禁用机器人链接中的参数</string>
-    <string name="LockPremium">隐藏 Premium 推广</string>
+    <string name="LockPremium">锁定 Premium 功能</string>
     <string name="DeleteAllUnpinnedMessages">删除所有未置顶消息</string>
     <string name="DeleteAllUnpinnedMessagesInfo">确定要 **删除本聊天中所有未置顶消息** 吗？</string>
     <string name="AddDeleteAllUnpinnedMessages">将\"删除所有未置顶\"加入菜单</string>
