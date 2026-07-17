@@ -157,7 +157,7 @@
     <string name="AppName">Fork Client</string>
     <string name="AppNameBeta">Fork Client</string>
     <string name="AppNameFdroid">Forkgram</string>
-    <string name="HiddenAccounts">隐藏账户</string>
+    <string name="HiddenAccounts">隐藏账户（独立解锁码）</string>
     <string name="HiddenAccountsOptions">选项</string>
     <string name="HiddenAccountsStealthMode">隐身模式</string>
     <string name="HiddenAccountsStealthModeRequiresPasscodeOff">启用隐身模式前请先关闭 Telegram 密码锁。</string>
