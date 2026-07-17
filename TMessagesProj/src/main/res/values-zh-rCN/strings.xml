@@ -146,8 +146,8 @@
     <string name="DisableDefaultInAppBrowser">用系统浏览器打开链接</string>
     <string name="TranslationEngine">翻译引擎</string>
     <string name="DisableAutoplayNextVoice">禁用语音/视频消息自动播放</string>
-    <string name="DisableUnifiedPush">禁用 UnifiedPush</string>
-    <string name="DisableUnifiedPushInfo">需要重启</string>
+    <string name="DisableUnifiedPush">禁用统一推送（UnifiedPush）</string>
+    <string name="DisableUnifiedPushInfo">启用后使用 UnifiedPush 标准接收推送通知，不依赖 Google Play 服务。需要重启。</string>
     <string name="AudioPlayerAutoplayNext">自动播放下一条</string>
     <string name="SmsOnlyOfficialWarning">注意：短信验证仅限官方应用</string>
     <string name="ThirdParty">第三方</string>
