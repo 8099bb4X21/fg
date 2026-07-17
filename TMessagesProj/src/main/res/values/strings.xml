@@ -32,6 +32,7 @@
     <string name="HideSendAsInfo">Hide the send-as avatar button in the message field.</string>
     <string name="DisableLinkPreviewByDefaultInfo">Send messages containing links without a preview attached.</string>
     <string name="DisableSlideToNextChannelInfo">Do not slide to the next channel when scrolling past the end.</string>
+    <string name="DisableSpoilersInfo">Spoiler text and media will be shown without blur.</string>
     <string name="FormatWithSecondsInfo">Show seconds in message timestamps and other times.</string>
     <string name="HideAiEditorInfo">Hide the AI rewrite button in message and caption fields.</string>
     <string name="FormattingMenuInfo">Hold and drag an option to reorder it. Unchecked options are hidden from the text selection menu.</string>
@@ -134,6 +135,7 @@
     <string name="AddDeleteAllUnpinnedMessagesInfo">EXPERIMENTAL.</string>
     <string name="NewMyStory">New Story</string>
     <string name="DisableSlideToNextChannel">Disable slide to next channel</string>
+    <string name="DisableSpoilers">Disable spoilers</string>
     <string name="DisableRecentFilesAttachment">Disable Recent Files</string>
     <string name="BotSkipShare">Skip share boxes from bots</string>
     <string name="BotSkipFullscreen">Disable fullscreen for bots</string>

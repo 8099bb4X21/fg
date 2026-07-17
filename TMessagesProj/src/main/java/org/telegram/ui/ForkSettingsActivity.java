@@ -131,6 +131,7 @@ public class ForkSettingsActivity extends BaseFragment {
     public static final int ID_UPDATE_CHECK_INTERVAL = 81;
     public static final int ID_DISABLE_TABLET_MODE = 82;
     public static final int ID_LOCK_PREMIUM = 83;
+    public static final int ID_DISABLE_SPOILERS = 84;
 
     public static final int ID_LASTFM_LOGIN = 90;
 
@@ -453,6 +454,8 @@ public class ForkSettingsActivity extends BaseFragment {
             .setChecked(pref("showNotificationContent", false)).setMultiline(true));
         items.add(UItem.asButtonCheck(ID_DROP_SCREENSHOT_CAPTION, LocaleController.getString(R.string.DropScreenshotCaption), LocaleController.getString(R.string.DropScreenshotCaptionInfo))
             .setChecked(pref("dropScreenshotCaption", true)).setMultiline(true));
+        items.add(UItem.asButtonCheck(ID_DISABLE_SPOILERS, LocaleController.getString(R.string.DisableSpoilers), LocaleController.getString(R.string.DisableSpoilersInfo))
+            .setChecked(pref("disableSpoilers", false)).setMultiline(true));
         if (HiddenAccountHelper.shouldShowSettingsEntry(currentAccount)) {
             items.add(UItem.asSettingsCell(ID_HIDDEN_ACCOUNTS, LocaleController.getString(R.string.HiddenAccounts), getHiddenAccountsText()));
         }
@@ -649,6 +652,8 @@ public class ForkSettingsActivity extends BaseFragment {
             toggle("showNotificationContent", item, view);
         } else if (id == ID_DROP_SCREENSHOT_CAPTION) {
             toggle("dropScreenshotCaption", item, view);
+        } else if (id == ID_DISABLE_SPOILERS) {
+            toggle("disableSpoilers", item, view);
         } else if (id == ID_HIDDEN_ACCOUNTS) {
             presentFragment(new HiddenAccountsActivity());
 

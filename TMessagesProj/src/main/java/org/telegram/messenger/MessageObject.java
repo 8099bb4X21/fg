@@ -640,6 +640,9 @@ public class MessageObject {
     }
 
     public boolean hasMediaSpoilers() {
+        if (MessagesController.getGlobalMainSettings().getBoolean("disableSpoilers", false)) {
+            return false;
+        }
         return !isRepostPreview && (messageOwner.media != null && messageOwner.media.spoiler || needDrawBluredPreview()) || isHiddenSensitive();
     }
 

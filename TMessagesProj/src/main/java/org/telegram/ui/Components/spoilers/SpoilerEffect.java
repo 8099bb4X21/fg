@@ -28,6 +28,8 @@ import android.text.Spanned;
 import android.text.StaticLayout;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
+
+import org.telegram.messenger.MessagesController;
 import android.view.View;
 import android.widget.TextView;
 
@@ -672,6 +674,9 @@ public class SpoilerEffect extends Drawable {
      * @param spoilers     Spoilers list to populate
      */
     public static void addSpoilers(@Nullable View v, Layout textLayout, int layoutLeft, int layoutRight, Spanned spannable, @Nullable Stack<SpoilerEffect> spoilersPool, List<SpoilerEffect> spoilers, ArrayList<QuoteSpan.Block> quoteBlocks) {
+        if (MessagesController.getGlobalMainSettings().getBoolean("disableSpoilers", false)) {
+            return;
+        }
         if (textLayout == null) {
             return;
         }
