@@ -96,7 +96,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v0.1.15
         with:
-          draft: true
+          draft: false
           files: artifact/*
           tag_name: ${{ env.VERSION }}
           name: "ForkClient ${{ env.VERSION }}"
