@@ -10836,6 +10836,34 @@ public class ChatActivity extends BaseFragment implements
         final Runnable inCaseLoading = () -> {
             sideControlsButtonsLayout.setButtonLoading(ChatActivitySideControlsButtonsLayout.BUTTON_PAGE_DOWN, true, true);
         };
+
+        if (unreadMessageObject != null && chatLayoutManager != null && chatAdapter != null) {
+            int unreadIndex = messages.indexOf(unreadMessageObject);
+            if (unreadIndex >= 0) {
+                int unreadAdapterPos = chatAdapter.messagesStartRow + unreadIndex;
+                int firstVisiblePos = chatLayoutManager.findFirstVisibleItemPosition();
+                if (firstVisiblePos != RecyclerView.NO_POSITION && firstVisiblePos < unreadAdapterPos) {
+                    for (int i = unreadIndex + 1; i < messages.size(); i++) {
+                        MessageObject msg = messages.get(i);
+                        if (msg.isSponsored()) {
+                            continue;
+                        }
+                        if (msg.isUnread()) {
+                            scrollToMessageId(msg.getId(), 0, false, returnToLoadIndex, true, 0, null, inCaseLoading);
+                            return;
+                        }
+                    }
+                }
+                scrollToLastMessage(true, !forceScrollToMessageBottom, inCaseLoading);
+                forceScrollToMessageBottom = false;
+                if (!pinnedMessageIds.isEmpty()) {
+                    forceScrollToFirst = true;
+                    forceNextPinnedMessageId = pinnedMessageIds.get(0);
+                }
+                return;
+            }
+        }
+
         if (createUnreadMessageAfterId != 0) {
             scrollToMessageId(createUnreadMessageAfterId, 0, false, returnToLoadIndex, true, 0, null, inCaseLoading);
         } else if (returnToMessageId > 0) {
