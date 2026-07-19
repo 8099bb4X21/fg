@@ -187,6 +187,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.camera.CameraView;
+import org.telegram.messenger.forkgram.ForkDebugLog;
 import org.telegram.messenger.forkgram.ForkUtils;
 import org.telegram.messenger.forkgram.ExtractMediaFromPreview;
 import org.telegram.messenger.forkgram.FormattingMenu;
@@ -3200,6 +3201,23 @@ public class ChatActivity extends BaseFragment implements
             }
         }
 
+        ForkDebugLog.log("[Entry] dialog_id=" + dialog_id
+            + (currentChat != null ? " type=chat title=" + currentChat.title
+                + (ChatObject.isChannel(currentChat) ? currentChat.megagroup ? " supergroup" : " channel" : " group")
+                + " id=" + currentChat.id : "")
+            + (currentUser != null ? " type=user username=" + currentUser.username + " id=" + currentUser.id + " bot=" + currentUser.bot : "")
+            + (currentEncryptedChat != null ? " type=secret" : "")
+            + " loadFromMsgId=" + startLoadFromMessageId
+            + " loadFromDate=" + startLoadFromDate
+            + " loadFromOffset=" + startLoadFromMessageOffset
+            + " replyMaxReadId=" + replyMaxReadId
+            + " wasManualScroll=" + wasManualScroll
+            + " loadingFromOldPosition=" + loadingFromOldPosition
+            + " chatMode=" + chatMode
+            + " read_inbox_max=" + getMessagesController().dialogs_read_inbox_max.get(dialog_id)
+            + " read_outbox_max=" + getMessagesController().dialogs_read_outbox_max.get(dialog_id)
+        );
+
         loadInfo = false;
         if (currentChat != null) {
             chatInfo = getMessagesController().getChatFull(currentChat.id);
@@ -3504,6 +3522,7 @@ public class ChatActivity extends BaseFragment implements
 
     @Override
     public void onFragmentDestroy() {
+        ForkDebugLog.log("[Exit] dialog_id=" + dialog_id + " pausedOnLastMessage=" + pausedOnLastMessage);
         super.onFragmentDestroy();
         if (messageMetricsView != null) {
             messageMetricsView.finish();
@@ -7106,6 +7125,7 @@ public class ChatActivity extends BaseFragment implements
                     if (firstVisibleItem == 0 && forwardEndReached[0]) {
                         if (dy >= 0) {
                             canShowPagedownButton = false;
+                            ForkDebugLog.log("[PageDown] scroll at top, hiding button, canShowPagedownButton=false");
                             updatePagedownButtonVisibility(true);
                         }
                     } else {
@@ -7118,6 +7138,7 @@ public class ChatActivity extends BaseFragment implements
                                 if (totalDy > scrollValue) {
                                     totalDy = 0;
                                     canShowPagedownButton = true;
+                                    ForkDebugLog.log("[PageDown] scroll down > threshold, showing button, canShowPagedownButton=true");
                                     updatePagedownButtonVisibility(true);
                                     pagedownButtonShowedByScroll = true;
                                 }
@@ -7127,6 +7148,7 @@ public class ChatActivity extends BaseFragment implements
                                 totalDy += dy;
                                 if (totalDy < -scrollValue) {
                                     canShowPagedownButton = false;
+                                    ForkDebugLog.log("[PageDown] scroll up > threshold, hiding button, canShowPagedownButton=false");
                                     updatePagedownButtonVisibility(true);
                                     totalDy = 0;
                                 }
@@ -10831,16 +10853,20 @@ public class ChatActivity extends BaseFragment implements
     private boolean forceScrollToMessageBottom;
 
     public void onPageDownClicked() {
+        ForkDebugLog.log("[PageDown] clicked createUnreadMessageAfterId=" + createUnreadMessageAfterId + " returnToMessageId=" + returnToMessageId + " newUnreadCount=" + newUnreadMessageCount + " pausedOnLastMessage=" + pausedOnLastMessage);
         wasManualScroll = true;
         textSelectionHelper.cancelTextSelectionRunnable();
         final Runnable inCaseLoading = () -> {
             sideControlsButtonsLayout.setButtonLoading(ChatActivitySideControlsButtonsLayout.BUTTON_PAGE_DOWN, true, true);
         };
         if (createUnreadMessageAfterId != 0) {
+            ForkDebugLog.log("[PageDown] -> scrollToMessageId(createUnreadMessageAfterId=" + createUnreadMessageAfterId + ")");
             scrollToMessageId(createUnreadMessageAfterId, 0, false, returnToLoadIndex, true, 0, null, inCaseLoading);
         } else if (returnToMessageId > 0) {
+            ForkDebugLog.log("[PageDown] -> scrollToMessageId(returnToMessageId=" + returnToMessageId + ")");
             scrollToMessageId(returnToMessageId, 0, true, returnToLoadIndex, true, 0, null, inCaseLoading);
         } else {
+            ForkDebugLog.log("[PageDown] -> scrollToLastMessage");
             scrollToLastMessage(true, !forceScrollToMessageBottom, inCaseLoading);
             forceScrollToMessageBottom = false;
             if (!pinnedMessageIds.isEmpty()) {
@@ -15921,11 +15947,13 @@ public class ChatActivity extends BaseFragment implements
         if (chatListView.isFastScrollAnimationRunning()) {
             return;
         }
+        ForkDebugLog.log("[PageDown] scrollToLastMessage forwardEndReached=" + forwardEndReached[0] + " first_unread_id=" + first_unread_id + " startLoadFromMessageId=" + startLoadFromMessageId);
         forceNextPinnedMessageId = 0;
         nextScrollToMessageId = 0;
         forceScrollToFirst = false;
         chatScrollHelper.setScrollDirection(RecyclerAnimationScrollHelper.SCROLL_DIRECTION_DOWN);
         if (forwardEndReached[0] && first_unread_id == 0 && startLoadFromMessageId == 0) {
+            ForkDebugLog.log("[PageDown] all messages loaded, scrolling to bottom");
             sideControlsButtonsLayout.setButtonLoading(ChatActivitySideControlsButtonsLayout.BUTTON_PAGE_DOWN, false, true);
             if (chatLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
                 canShowPagedownButton = false;
@@ -15960,8 +15988,10 @@ public class ChatActivity extends BaseFragment implements
                 final int finalPosition = position;
                 final boolean finalTop = top;
                 Runnable scroll = () -> {
+                    ForkDebugLog.log("[PageDown] scrolling to position=" + finalPosition + " top=" + finalTop);
                     chatScrollHelper.scrollToPosition(chatScrollHelperCallback.position = finalPosition, chatScrollHelperCallback.offset = 0, chatScrollHelperCallback.bottom = !finalTop, true, true);
                     canShowPagedownButton = false;
+                    ForkDebugLog.log("[PageDown] canShowPagedownButton=false, hiding button");
                     updatePagedownButtonVisibility(true);
                 };
                 if (SCROLL_DEBUG_DELAY && inCaseLoading != null) {
@@ -15975,6 +16005,7 @@ public class ChatActivity extends BaseFragment implements
                 }
             }
         } else {
+            ForkDebugLog.log("[PageDown] need load more messages, loadIndex=" + lastLoadIndex + " postponedScrollToLastMessageQueryIndex=" + postponedScrollToLastMessageQueryIndex);
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
@@ -16816,6 +16847,7 @@ public class ChatActivity extends BaseFragment implements
                 } else {
                     inlineUpdate1();
                 }
+                ForkDebugLog.log("[PageDown] markDialogAsRead from inlineUpdate2, dialog_id=" + dialog_id + " maxPositiveUnreadId=" + maxPositiveUnreadId + " minMessageId=" + minMessageId[0] + " newUnreadCount=" + newUnreadMessageCount);
                 getMessagesController().markDialogAsRead(dialog_id, maxPositiveUnreadId, maxNegativeUnreadId, maxUnreadDate, false, threadId, counterDecrement, maxPositiveUnreadId == minMessageId[0] || maxNegativeUnreadId == minMessageId[0], scheduledRead);
                 firstUnreadSent = true;
             } else if (!firstUnreadSent && currentEncryptedChat == null) {
@@ -16826,6 +16858,7 @@ public class ChatActivity extends BaseFragment implements
                     } else {
                         inlineUpdate2();
                     }
+                    ForkDebugLog.log("[PageDown] markDialogAsRead from scroll-to-bottom, dialog_id=" + dialog_id + " minMessageId=" + minMessageId[0]);
                     getMessagesController().markDialogAsRead(dialog_id, minMessageId[0], minMessageId[0], maxDate[0], false, threadId, 0, true, scheduledRead);
                     if (isTopic && replyOriginalChat != null) {
                         getMessagesStorage().updateRepliesMaxReadId(replyOriginalChat.id, replyOriginalMessageId, Math.max(maxPositiveUnreadId, replyMaxReadId), 0, true);
@@ -17361,6 +17394,7 @@ public class ChatActivity extends BaseFragment implements
             }
         }
 
+        ForkDebugLog.log("[PageDown] scrollToMessageId id=" + id + " fromMessageId=" + fromMessageId + " select=" + select + " object_in_cache=" + (object != null) + " scrollDirection=" + scrollDirection);
         chatScrollHelper.setScrollDirection(scrollDirection);
         if (!SCROLL_DEBUG_DELAY && object != null) {
             MessageObject.GroupedMessages groupedMessages = groupedMessagesMap.get(object.getGroupId());
@@ -17435,8 +17469,10 @@ public class ChatActivity extends BaseFragment implements
                     chatScrollHelperCallback.lastItemOffset = yOffset;
                     chatScrollHelperCallback.lastPadding = (int) chatListViewPaddingTop;
                     chatScrollHelper.setScrollDirection(scrollDirection);
+                    ForkDebugLog.log("[PageDown] scrollToMessageId -> scroll to position=" + position + " yOffset=" + yOffset + " messageId=" + object.getId());
                     chatScrollHelper.scrollToPosition(chatScrollHelperCallback.position = position, chatScrollHelperCallback.offset = yOffset, chatScrollHelperCallback.bottom = false, true);
                     canShowPagedownButton = true;
+                    ForkDebugLog.log("[PageDown] canShowPagedownButton=true, showing button");
                     updatePagedownButtonVisibility(true);
                 }
             } else {
@@ -17447,6 +17483,7 @@ public class ChatActivity extends BaseFragment implements
         }
 
         if (query) {
+            ForkDebugLog.log("[PageDown] scrollToMessageId -> need load from server, id=" + id + " loadIndex=" + loadIndex + " lastLoadIndex=" + lastLoadIndex);
             if (isThreadChat() && id == threadMessageId) {
                 scrollToThreadMessage = true;
                 id = 1;
@@ -17522,7 +17559,9 @@ public class ChatActivity extends BaseFragment implements
                 animated = false;
             }
             pagedownButtonShowedByScroll = false;
+            ForkDebugLog.log("[PageDown] button shown (canShow=" + canShowPagedownButton + " textSelection=" + hasTextSelection() + " recording=" + chatActivityEnterView.isRecordingAudioVideo() + " insideContainer=" + isInsideContainer + " searching=" + searching + ")");
         } else {
+            ForkDebugLog.log("[PageDown] button hidden, clearing returnToMessageId=" + returnToMessageId + " newUnreadCount=" + newUnreadMessageCount);
             returnToMessageId = 0;
             newUnreadMessageCount = 0;
         }
@@ -30561,10 +30600,12 @@ public class ChatActivity extends BaseFragment implements
                     }
                 }
                 if (messageId != 0) {
+                    ForkDebugLog.log("[Pause] savePosition dialog_id=" + dialog_id + " mid=" + messageId + " offset=" + offset + " key=" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()));
                     editor.putInt("diditem" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()), messageId);
                     editor.putInt("diditemo" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()), offset);
                 } else {
                     pausedOnLastMessage = true;
+                    ForkDebugLog.log("[Pause] clearPosition dialog_id=" + dialog_id + " (scrolled to bottom)");
                     editor.remove("diditem" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()));
                     editor.remove("diditemo" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()));
                 }

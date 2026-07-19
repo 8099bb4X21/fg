@@ -64,6 +64,7 @@ import org.telegram.messenger.voip.GroupCallMessagesController;
 import org.telegram.messenger.voip.VoIPDebugToSend;
 import org.telegram.messenger.voip.VoIPPreNotificationService;
 import org.telegram.messenger.voip.VoIPService;
+import org.telegram.messenger.forkgram.ForkDebugLog;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
@@ -13503,6 +13504,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     value = 0;
                 }
                 dialogs_read_outbox_max.put(d.id, Math.max(value, d.read_outbox_max_id));
+
+                ForkDebugLog.log("[Server] dialog=" + d.id + " top_msg=" + d.top_message + " unread=" + d.unread_count + " read_inbox=" + d.read_inbox_max_id + " read_outbox=" + d.read_outbox_max_id);
             }
 
             if (loadType != DIALOGS_LOAD_TYPE_CACHE) {
@@ -14669,6 +14672,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     value = 0;
                 }
                 dialogs_read_inbox_max.put(dialogId, Math.max(value, maxPositiveId));
+
+                ForkDebugLog.log("[ReadState] markAsRead dialogId=" + dialogId + " maxPositiveId=" + maxPositiveId + " maxDate=" + maxDate + " threadId=" + threadId + " countDiff=" + countDiff + " readNow=" + readNow);
 
                 getMessagesStorage().processPendingRead(dialogId, maxPositiveId, maxNegativeId, scheduledCount);
                 getMessagesStorage().getStorageQueue().postRunnable(() -> AndroidUtilities.runOnUIThread(() -> {

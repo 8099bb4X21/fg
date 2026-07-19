@@ -40,6 +40,7 @@ import androidx.annotation.NonNull;
 
 import org.json.JSONObject;
 import org.telegram.messenger.voip.VideoCapturerDevice;
+import org.telegram.messenger.forkgram.ForkDebugLog;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -266,6 +267,15 @@ public class ApplicationLoader extends Application {
             }
             ContactsController.getInstance(a).checkAppAccount();
             DownloadController.getInstance(a);
+        }
+
+        try {
+            if (MessagesController.getGlobalMainSettings().getBoolean("debugLog", false)) {
+                ForkDebugLog.init(true);
+                ForkDebugLog.log("ForkDebugLog re-initialized on app start");
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
 
         Utilities.globalQueue.postRunnable(ApplicationLoader::cleanupUnusedAccountDirs);

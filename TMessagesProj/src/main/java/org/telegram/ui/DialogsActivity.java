@@ -129,6 +129,7 @@ import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.forkgram.ForkDebugLog;
 import org.telegram.messenger.forkgram.HiddenAccountHelper;
 import org.telegram.messenger.utils.FBool;
 import org.telegram.messenger.utils.GradientProtectionDrawable;
@@ -423,6 +424,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             position = 1;
                             offset = tabsTranslation;
                         }
+                        ForkDebugLog.log("[ListScroll] saveScrollPosition position=" + position + " offset=" + (int) offset);
                         layoutManager.scrollToPositionWithOffset(position, (int) offset);
                     }
                 }
@@ -8374,6 +8376,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void setOpenedDialogId(long dialogId, long topicId) {
+        ForkDebugLog.log("[ListScroll] setOpenedDialogId dialogId=" + dialogId + " topicId=" + topicId + " prev=" + openedDialogId.dialogId);
         openedDialogId.dialogId = dialogId;
         openedDialogId.topicId = topicId;
 
@@ -10783,10 +10786,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     long topicId = (Long) args[1];
                     if (close) {
                         if (dialog_id == openedDialogId.dialogId && topicId == openedDialogId.topicId) {
+                            ForkDebugLog.log("[ListScroll] closeDialog dialogId=" + dialog_id + " topicId=" + topicId);
                             openedDialogId.dialogId = 0;
                             openedDialogId.topicId = 0;
                         }
                     } else {
+                        ForkDebugLog.log("[ListScroll] openDialog dialogId=" + dialog_id + " topicId=" + topicId);
                         openedDialogId.dialogId = dialog_id;
                         openedDialogId.topicId = topicId;
                     }
