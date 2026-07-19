@@ -14,6 +14,7 @@ public class ForkDebugLog {
     private static PrintWriter writer;
     private static boolean enabled;
     private static File logFile;
+    private static String sessionTime;
 
     public static synchronized void init(boolean enabled) {
         ForkDebugLog.enabled = enabled;
@@ -28,13 +29,15 @@ public class ForkDebugLog {
     }
 
     private static void open() {
+        if (sessionTime == null) {
+            sessionTime = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.US).format(new Date());
+        }
         try {
             File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             if (downloadDir == null) return;
             File dir = new File(downloadDir, "forkgram");
             dir.mkdirs();
-            String date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
-            logFile = new File(dir, "trace-" + date + ".log");
+            logFile = new File(dir, "trace-" + sessionTime + ".log");
             writer = new PrintWriter(new FileWriter(logFile, true));
             logInternal("=== Log started ===");
         } catch (Exception e) {
