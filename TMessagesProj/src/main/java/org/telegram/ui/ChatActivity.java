@@ -30538,6 +30538,7 @@ public class ChatActivity extends BaseFragment implements
                 SharedPreferences.Editor editor = MessagesController.getNotificationsSettings(currentAccount).edit();
                 int messageId = 0;
                 int offset = 0;
+                String pauseSkipReason = null;
                 if (chatLayoutManager != null) {
                     boolean sponsoredMessageFound = false;
                     for (int i = 0; i < chatListView.getChildCount(); i++) {
@@ -30547,7 +30548,11 @@ public class ChatActivity extends BaseFragment implements
                         }
                     }
                     int position = chatLayoutManager.findFirstVisibleItemPosition();
-                    if (position != 0 && !sponsoredMessageFound) {
+                    if (position == 0) {
+                        pauseSkipReason = "atTop";
+                    } else if (sponsoredMessageFound) {
+                        pauseSkipReason = "sponsored";
+                    } else {
                         RecyclerListView.Holder holder = (RecyclerListView.Holder) chatListView.findViewHolderForAdapterPosition(position);
                         if (holder != null) {
                             int mid = 0;
@@ -30576,6 +30581,7 @@ public class ChatActivity extends BaseFragment implements
                                 }
                                 if ((!messageObject2.isOut() || messageObject2.messageOwner.from_scheduled) && messageObject != null && messageObject.isUnread()) {
                                     ignore = true;
+                                    pauseSkipReason = "unreadFirstVisible mid=" + mid + " unreadState=" + messageObject.isUnread();
                                     messageId = 0;
                                 }
                                 if (count > 2) {
@@ -30593,6 +30599,7 @@ public class ChatActivity extends BaseFragment implements
                                         FileLog.d("save offset = " + offset + " for mid " + messageId);
                                     }
                                 } else {
+                                    pauseSkipReason = messageId != 0 ? "encryptedMismatch mid=" + messageId : "noMessageObject";
                                     messageId = 0;
                                 }
                             }
@@ -30605,7 +30612,11 @@ public class ChatActivity extends BaseFragment implements
                     editor.putInt("diditemo" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()), offset);
                 } else {
                     pausedOnLastMessage = true;
-                    ForkDebugLog.log("[Pause] clearPosition dialog_id=" + dialog_id + " (scrolled to bottom)");
+                    if (pauseSkipReason != null) {
+                        ForkDebugLog.log("[Pause] skipPosition dialog_id=" + dialog_id + " reason=" + pauseSkipReason);
+                    } else {
+                        ForkDebugLog.log("[Pause] skipPosition dialog_id=" + dialog_id + " reason=unknown");
+                    }
                     editor.remove("diditem" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()));
                     editor.remove("diditemo" + NotificationsController.getSharedPrefKey(dialog_id, getTopicId()));
                 }
