@@ -13505,7 +13505,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 dialogs_read_outbox_max.put(d.id, Math.max(value, d.read_outbox_max_id));
 
-                ForkDebugLog.log("[Server] dialog=" + d.id + " top_msg=" + d.top_message + " unread=" + d.unread_count + " read_inbox=" + d.read_inbox_max_id + " read_outbox=" + d.read_outbox_max_id);
+                if (loadType != DIALOGS_LOAD_TYPE_CACHE && d.top_message != 0) {
+                    ForkDebugLog.log("[Server] dialog=" + d.id + " top_msg=" + d.top_message + " unread=" + d.unread_count + " read_inbox=" + d.read_inbox_max_id + " read_outbox=" + d.read_outbox_max_id);
+                }
             }
 
             if (loadType != DIALOGS_LOAD_TYPE_CACHE) {
